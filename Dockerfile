@@ -1,0 +1,10 @@
+FROM golang:latest
+
+ENV GOOS=linux
+ENV GOARCH=amd64
+ENV CGO_ENABLED=0
+ENV GO111MODULE on
+
+RUN mkdir /app
+
+WORKDIR /app
