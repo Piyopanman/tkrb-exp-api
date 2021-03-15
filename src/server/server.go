@@ -14,12 +14,16 @@ func Init(){
 }
 
 func router() *gin.Engine{
-	router := gin.New()
+	router := gin.Default()
 	router.Use(middleware.Cors())
 
 	//* ルーティング *//
-	router.GET("/",handler.Top) //ほんとはいらない
-	router.GET("/hitokuchi", handler.Hito)
+	// router.GET("/",handler.Top) //ほんとはいらない
+	// router.GET("/hitokuchi", handler.Hito)
 	// router.POST("/futakuchi",handler.Futa)
+
+	router.GET("/toukenList", handler.GetToukenList)
+	router.POST("/toukenOne",handler.GetToukenOne)
+
 	return router
 }

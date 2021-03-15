@@ -11,7 +11,6 @@ import (
 func Cors() gin.HandlerFunc {
 	return (cors.New(cors.Config{
 		AllowMethods: []string{
-			"POST",
 			"GET",
 			"OPTIONS",
 		},
