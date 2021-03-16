@@ -52,12 +52,3 @@ func GetResult(c *gin.Context){
 	}
 
 }
-
-
-type getResultResponse struct{
-	ToukenName string `json:"toukenName"`
-	Level int `json:"level"`
-	Exp int32 `json:"exp"`
-	Konpeto int32 `json:"konpeto"`
-	Atsukashi int32 `json:"atsukashi"`
-}

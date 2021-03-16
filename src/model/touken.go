@@ -17,3 +17,17 @@ func GetToukenAll()([]Touken, error){
 	}
 	return toukens,nil
 }
+
+//GetTouken touken_idを元に情報を取得
+func GetTouken(id int)(Touken, error){
+	touken := Touken{}
+	dummy := Touken{
+		ToukenID: 0,
+		ToushuID: 0,
+		Touken: "",
+	}
+	if err := db.Conn.Where("touken_id=?", id).First(&touken).Error; err != nil{
+		return dummy,err
+	}
+	return touken,nil
+}

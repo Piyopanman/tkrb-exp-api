@@ -24,6 +24,7 @@ func router() *gin.Engine{
 
 	router.GET("/toukenList", handler.GetToukenList)
 	router.POST("/toukenOne",handler.GetToukenOne)
+	router.POST("/toukenTwo", handler.GetToukenTwo)
 
 	return router
 }
