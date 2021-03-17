@@ -70,10 +70,13 @@ func GetToukenTwo(c *gin.Context){
 	}
 
 	//金平糖何個分、厚樫山何周分で追いつくか,同じ刀剣だった場合の処理
-	var diffKonpeto,diffAtsukashi,moreGrown,lessGrown int
+	var diffKonpeto,diffAtsukashi float64
+	var moreGrown,lessGrown int
+	var isSameExp bool
 	if(toukenDataSlice[0].Exp > toukenDataSlice[1].Exp){
-		diffKonpeto = int((toukenDataSlice[0].Exp - toukenDataSlice[1].Exp) / constant.KonpetoExp)
-		diffAtsukashi = int((toukenDataSlice[0].Exp - toukenDataSlice[1].Exp) / constant.AtsukashiExp)
+		diffKonpeto = math.Ceil(float64(toukenDataSlice[0].Exp - toukenDataSlice[1].Exp) / constant.KonpetoExp)
+		diffAtsukashi = math.Ceil(float64(toukenDataSlice[0].Exp - toukenDataSlice[1].Exp) / constant.AtsukashiExp)
+		isSameExp = false
 		moreGrown = 0
 		lessGrown = 1
 		if(toukenDataSlice[0].ToukenName == toukenDataSlice[1].ToukenName){
@@ -81,23 +84,30 @@ func GetToukenTwo(c *gin.Context){
 			toukenDataSlice[1].ToukenName = "二振り目の" + toukenDataSlice[1].ToukenName
 		}
 	}else if(toukenDataSlice[0].Exp < toukenDataSlice[1].Exp){
-		diffKonpeto = int((toukenDataSlice[1].Exp - toukenDataSlice[0].Exp) / constant.KonpetoExp)
-		diffAtsukashi = int((toukenDataSlice[1].Exp - toukenDataSlice[0].Exp) / constant.AtsukashiExp)
+		diffKonpeto = math.Ceil(float64(toukenDataSlice[1].Exp - toukenDataSlice[0].Exp) / constant.KonpetoExp)
+		diffAtsukashi = math.Ceil(float64(toukenDataSlice[1].Exp - toukenDataSlice[0].Exp) / constant.AtsukashiExp)
+		isSameExp = false
 		moreGrown = 1
 		lessGrown = 0
 		if(toukenDataSlice[0].ToukenName == toukenDataSlice[1].ToukenName){
-			toukenDataSlice[0].ToukenName += "二振り目の" + toukenDataSlice[0].ToukenName
-			toukenDataSlice[1].ToukenName += "一振り目の" + toukenDataSlice[1].ToukenName
+			toukenDataSlice[0].ToukenName = "二振り目の" + toukenDataSlice[0].ToukenName
+			toukenDataSlice[1].ToukenName = "一振り目の" + toukenDataSlice[1].ToukenName
 		}
 	}else{
 		diffKonpeto = 0
 		diffAtsukashi = 0
-		moreGrown = -1
-		lessGrown = -1
+		isSameExp = true
+		moreGrown = 0
+		lessGrown = 1
+		if(toukenDataSlice[0].ToukenName == toukenDataSlice[1].ToukenName){
+			toukenDataSlice[0].ToukenName = "一振り目の" + toukenDataSlice[0].ToukenName
+			toukenDataSlice[1].ToukenName = "二振り目の" + toukenDataSlice[1].ToukenName
+		}
 	}
 
 	c.JSON(http.StatusOK, getToukenTwoResponse{
 		Touken: toukenDataSlice,
+		IsSameExp: isSameExp,
 		MoreGrown: moreGrown,
 		LessGrown: lessGrown,
 		DiffKonpeto: diffKonpeto,
@@ -116,10 +126,11 @@ type getToukenTwoRequest struct{
 
 type getToukenTwoResponse struct{
 	Touken []toukenSingle `json:"touken"`
+	IsSameExp bool `json:"isSameExp"`
 	MoreGrown int `json:"moreGrown"`
 	LessGrown int `json:"lessGrown"`
-	DiffKonpeto int `json:"diffKonpeto"`
-	DiffAtsukashi int `json:"diffAtsukashi"`
+	DiffKonpeto float64 `json:"diffKonpeto"`
+	DiffAtsukashi float64 `json:"diffAtsukashi"`
 }
 
 type toukenSingle struct{
