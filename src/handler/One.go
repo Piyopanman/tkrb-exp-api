@@ -1,23 +1,25 @@
 package handler
 
 import (
-	"log"
+	"fmt"
 	"math"
 	"net/http"
 	"touken-exp/src/constant"
+	"touken-exp/src/logging"
 	"touken-exp/src/model"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 //GetToukenOne 一振り
 func GetToukenOne(c *gin.Context){
+	logging.Logger.Info(fmt.Sprintf("Get access to %v", c.Request.URL.Path))
 	//リクエストボディから値を取得
 	var req getToukenOneRequest
 	if err := c.ShouldBindJSON(&req); err != nil{
-		log.Println("failed to bind JSON")
-		log.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"message":"failed!!!!!!"})
+		logging.Logger.Error("Failed to bind JSON")
+		c.JSON(http.StatusBadRequest, gin.H{"message":"Failed to bind JSON"})
 		return
 	}
 
@@ -25,8 +27,8 @@ func GetToukenOne(c *gin.Context){
 	var touken model.Touken
 	touken,err := model.GetTouken(req.Touken)
 	if err != nil{
-		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"message":"internal server error"})
+		logging.Logger.Error(fmt.Sprintf("Failed to get toukenName and toukenID by toukenID(%d)", req.Touken))
+		c.JSON(http.StatusInternalServerError, gin.H{"message":"Failed to get toukenName and toukenID in GetToukenOne"})
 		return
 	}
 
@@ -34,8 +36,8 @@ func GetToukenOne(c *gin.Context){
 	var exp model.Exp
 	exp,err = model.GetExp(touken.ToushuID,req.Level)
 	if err != nil{
-		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"message":"internal server error"})
+		logging.Logger.Error(fmt.Sprintf("Failed to get Exp by toukenID(%d) and level(%d)", req.Touken,req.Level))
+		c.JSON(http.StatusInternalServerError, gin.H{"message":"Failed to get Exp by toukenIDand level in GetToukenOne"})
 		return
 	}
 
@@ -45,6 +47,8 @@ func GetToukenOne(c *gin.Context){
 	//厚樫山何周分？
 	atsukashiKari := float64(exp.SumExp) / constant.AtsukashiExp
 	atsukashi := math.Round(atsukashiKari * 100) / 100
+
+	logging.Logger.Info("Success GetToukenOne", zap.Int("toukenID",req.Touken),zap.Int("level",req.Level),zap.String("saniwa",req.Saniwa))
 
 
 	c.JSON(http.StatusOK, getToukenOneResponse{

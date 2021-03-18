@@ -14,8 +14,10 @@ func Init(){
 }
 
 func router() *gin.Engine{
-	router := gin.Default()
-	router.Use(middleware.Cors())
+	// router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.New()
+	router.Use(middleware.Cors(), middleware.AccessLog())
 
 	//* ルーティング *//
 	router.GET("/toukenList", handler.GetToukenList)
