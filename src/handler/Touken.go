@@ -1,18 +1,23 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"touken-exp/src/logging"
 	"touken-exp/src/model"
 
 	"github.com/gin-gonic/gin"
 )
 
-//刀剣リストを取得する
+//GetToukenList 刀剣リストを取得する
 func GetToukenList(c *gin.Context){
+	logging.Logger.Info(fmt.Sprintf("Get access to %v", c.Request.URL.Path))
+
 	toukenList,err := model.GetToukenAll()
 	if err != nil{
-		log.Println("failed to get toukenNameList in GetToukenList")
+		logging.Logger.Error("Failed to get toukenNameList")
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to get toukenNameList"})
 		return
 	}
 	var toukenNameList []ToukenData
@@ -24,6 +29,8 @@ func GetToukenList(c *gin.Context){
 		}
 		toukenNameList = append(toukenNameList, toukenData)
 	}
+
+	logging.Logger.Info("Success GetToukenList")
 	c.JSON(http.StatusOK, getToukenListResponse{List: toukenNameList})
 
 }
