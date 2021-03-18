@@ -15,7 +15,6 @@ func GetToukenList(c *gin.Context){
 		log.Println("failed to get toukenNameList in GetToukenList")
 		return
 	}
-	// log.Println(toukenList)
 	var toukenNameList []ToukenData
 	for _,t := range toukenList{
 		toukenData := ToukenData{
