@@ -1,24 +1,26 @@
 package handler
 
 import (
-	"log"
+	"fmt"
 	"math"
 	"net/http"
 	"touken-exp/src/constant"
+	"touken-exp/src/logging"
 	"touken-exp/src/model"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 //GetToukenTwo ２振り
 func GetToukenTwo(c *gin.Context){
+	logging.Logger.Info(fmt.Sprintf("Get access to %v", c.Request.URL.Path))
 
 	//リクエストボディからデータを取得
 	var req getToukenTwoRequest
 	if err := c.ShouldBindJSON(&req); err != nil{
-		log.Println("failed to bind JSON")
-		log.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"message":"failed!!!!!!"})
+		logging.Logger.Error("Failed to bind JSON")
+		c.JSON(http.StatusBadRequest, gin.H{"message":"Failed to bind JSON in GetToukenTwo"})
 		return
 	}
 
@@ -39,8 +41,8 @@ func GetToukenTwo(c *gin.Context){
 		//刀剣IDから刀剣名、刀種IDを取得
 		touken,err := model.GetTouken(t.ToukenID)
 		if err != nil{
-			log.Println(err)
-			c.JSON(http.StatusInternalServerError, gin.H{"message":"internal server error"})
+			logging.Logger.Error(fmt.Sprintf("Failed to get toukenName and toukenID by toukenID(%d)", t.ToukenID))
+			c.JSON(http.StatusInternalServerError, gin.H{"message":"Failed to get toukenName and toukenID by toukenID"})
 			return
 		}
 
@@ -48,8 +50,8 @@ func GetToukenTwo(c *gin.Context){
 		var exp model.Exp
 		exp,err = model.GetExp(touken.ToushuID,t.Level)
 		if err != nil{
-			log.Println(err)
-			c.JSON(http.StatusInternalServerError, gin.H{"message":"internal server error"})
+			logging.Logger.Error(fmt.Sprintf("Failed to get Exp by toushuID(%d) and level(%d)", touken.ToushuID,t.Level))
+			c.JSON(http.StatusInternalServerError, gin.H{"message":"Failed to get Exp by toushuID and level"})
 			return
 		}
 		//金平糖何個分？
@@ -104,6 +106,8 @@ func GetToukenTwo(c *gin.Context){
 			toukenDataSlice[1].ToukenName = "二振り目の" + toukenDataSlice[1].ToukenName
 		}
 	}
+
+	logging.Logger.Info("Seccess GetToukenTwo", zap.Int("touken1", req.Touken1), zap.Int("touken2",req.Touken2), zap.String("saniwa",req.Saniwa))
 
 	c.JSON(http.StatusOK, getToukenTwoResponse{
 		Touken: toukenDataSlice,
