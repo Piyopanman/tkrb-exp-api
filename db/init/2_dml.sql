@@ -11,8 +11,29 @@ insert into `toushu` (`toushu_id`, `toushu`) values (6,"大太刀");
 insert into `toushu` (`toushu_id`, `toushu`) values (7,"槍");
 insert into `toushu` (`toushu_id`, `toushu`) values (8,"薙刀");
 
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(3, 1, "三日月宗近");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(5, 1, "小狐丸");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(7, 1, "石切丸");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(9, 1, "岩融");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(11, 1, "今剣");
+
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(85, 1, "加州清光");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(89, 1, "歌仙兼定");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(101, 1, "蜂須賀虎徹");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(93, 1, "陸奥守吉行");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(95, 1, "山姥切国広");
+
+
 insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(176, 1, "源清麿");
 insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(174, 1, "水心子正秀");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(13, 1, "大典太光世");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(15, 1, "ソヤハノツルキ");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(160, 1, "豊前江");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(172, 1, "桑名江");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(192, 1, "五月雨江");
+insert into `touken` (`touken_id`,`toushu_id`, `touken`) values(200, 1, "村雲江");
+
+
 
 insert into `exp` (`id`,`toushu_id`, `level`, `sum_exp`) values(101, 1, 1, 0);
 insert into `exp` (`id`,`toushu_id`, `level`, `sum_exp`) values(102, 1, 2, 100);
