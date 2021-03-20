@@ -10,8 +10,11 @@ import (
 
 //Init サーバー起動
 func Init(){
-	port := os.Getenv("PORT")
 	r := router()
+	port := os.Getenv("PORT")
+	if port == ""{
+		port = "5000"
+	}
 	r.Run(":" + port)
 }
 
