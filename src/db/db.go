@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"touken-exp/src/logging"
+	"tkrb-exp-api/src/logging"
 
 	_ "github.com/go-sql-driver/mysql" //blank import
 	"github.com/joho/godotenv"

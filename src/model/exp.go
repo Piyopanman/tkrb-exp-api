@@ -1,6 +1,6 @@
 package model
 
-import "touken-exp/src/db"
+import "tkrb-exp-api/src/db"
 
 //Exp expテーブルデータ
 type Exp struct{

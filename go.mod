@@ -1,4 +1,4 @@
-module touken-exp
+module tkrb-exp-api
 
 go 1.15
 

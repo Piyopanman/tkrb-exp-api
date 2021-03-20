@@ -1,8 +1,8 @@
 package main
 
 import (
-	"touken-exp/src/logging"
-	"touken-exp/src/server"
+	"tkrb-exp-api/src/logging"
+	"tkrb-exp-api/src/server"
 )
 
 func main() {

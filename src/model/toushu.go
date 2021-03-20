@@ -1,6 +1,6 @@
 package model
 
-import "touken-exp/src/db"
+import "tkrb-exp-api/src/db"
 
 //Toushu 刀種テーブルデータ
 type Toushu struct{

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"touken-exp/src/logging"
+	"tkrb-exp-api/src/logging"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

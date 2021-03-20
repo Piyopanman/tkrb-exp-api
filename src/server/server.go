@@ -1,8 +1,8 @@
 package server
 
 import (
-	"touken-exp/src/handler"
-	"touken-exp/src/middleware"
+	"tkrb-exp-api/src/handler"
+	"tkrb-exp-api/src/middleware"
 
 	"github.com/gin-gonic/gin"
 )

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"math"
 	"net/http"
-	"touken-exp/src/constant"
-	"touken-exp/src/logging"
-	"touken-exp/src/model"
+	"tkrb-exp-api/src/constant"
+	"tkrb-exp-api/src/logging"
+	"tkrb-exp-api/src/model"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
