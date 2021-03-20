@@ -1,6 +1,7 @@
 package server
 
 import (
+	"os"
 	"tkrb-exp-api/src/handler"
 	"tkrb-exp-api/src/middleware"
 
@@ -9,8 +10,9 @@ import (
 
 //Init サーバー起動
 func Init(){
+	port := os.Getenv("PORT")
 	r := router()
-	r.Run(":8000")
+	r.Run(":" + port)
 }
 
 func router() *gin.Engine{
