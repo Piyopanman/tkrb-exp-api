@@ -10,7 +10,7 @@ import (
 //Init サーバー起動
 func Init(){
 	r := router()
-	r.Run(":8080")
+	r.Run(":8000")
 }
 
 func router() *gin.Engine{

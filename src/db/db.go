@@ -1,11 +1,10 @@
 package db
 
 import (
-	"fmt"
+	"database/sql"
+	"os"
 	"tkrb-exp-api/src/logging"
 
-	_ "github.com/go-sql-driver/mysql" //blank import
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -16,10 +15,10 @@ var Conn *gorm.DB
 
 //Init データベースの初期化
 func Init(){
-	err := godotenv.Load()
-	if err != nil {
-		logging.Logger.Error("Error loading .env file")
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	logging.Logger.Error("Error loading .env file")
+	// }
 	//mysql
 	// user := os.Getenv("MYSQL_USER")
 	// password := os.Getenv("MYSQL_PASSWORD")
@@ -37,13 +36,16 @@ func Init(){
 	// })
 
 	//postgreSQL
-	dns := fmt.Sprintf("host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Tokyo")
-	Conn,err =  gorm.Open(postgres.Open(dns), &gorm.Config{
-			CreateBatchSize: 100,
+	dns := os.Getenv("DATABASE_URL")
+	sqlDB,err := sql.Open("postgres", dns)
+	Conn, err = gorm.Open(postgres.New(postgres.Config{
+		Conn: sqlDB,
+	  }), &gorm.Config{
+		CreateBatchSize: 100,
 			NamingStrategy: schema.NamingStrategy{
 				SingularTable: true,
 			},
-		})
+	  })
 
 	if err != nil{
 		logging.Logger.Error("Failed to connect to SQL")
