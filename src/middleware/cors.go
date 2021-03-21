@@ -23,6 +23,7 @@ func Cors() gin.HandlerFunc {
 		},
 		AllowOrigins: []string{
 			"http://localhost:3030",
+			"https://tkrb-exp-checker.vercel.app",
 		},
 		MaxAge: 24 * time.Hour,
 	}))
