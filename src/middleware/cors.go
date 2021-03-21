@@ -12,12 +12,14 @@ func Cors() gin.HandlerFunc {
 	return (cors.New(cors.Config{
 		AllowMethods: []string{
 			"GET",
+			"POST",
 			"OPTIONS",
 		},
 		AllowHeaders: []string{
 			"Content-Type",
 			"Accept",
 			"Origin",
+			"Access-Control-Allow-Origin",
 		},
 		AllowOrigins: []string{
 			"http://localhost:3030",
