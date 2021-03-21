@@ -20,7 +20,6 @@ func Cors() gin.HandlerFunc {
 			"Origin",
 		},
 		AllowOrigins: []string{
-			"*",
 			"http://localhost:3030",
 		},
 		MaxAge: 24 * time.Hour,

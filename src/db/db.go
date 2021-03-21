@@ -61,10 +61,9 @@ func Init(){
 	// 	},
 	// })
 
-
-
 	if err != nil{
 		logging.Logger.Error("Failed to connect to SQL")
+		return
 	}
 
 	logging.Logger.Info("Success to connect to SQL")
