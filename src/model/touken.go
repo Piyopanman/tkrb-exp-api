@@ -12,7 +12,7 @@ type Touken struct{
 //GetToukenAll すべての刀剣情報を取得
 func GetToukenAll()([]Touken, error){
 	toukens := []Touken{}
-	if err := db.Conn.Find(&toukens).Error; err != nil{
+	if err := db.Conn.Order("touken_id").Find(&toukens).Error; err != nil{
 		return nil, err
 	}
 	return toukens,nil
