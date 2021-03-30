@@ -1,3 +1,4 @@
 .env
 db/init/
 bin/
+memo.txt
