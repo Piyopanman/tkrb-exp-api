@@ -6,7 +6,7 @@ import (
 	"os"
 	"tkrb-exp-api/src/logging"
 
-	"github.com/lib/pq"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -20,47 +20,43 @@ func Init(){
 
 	//postgreSQL
 	url := os.Getenv("DATABASE_URL")
-	connection,err := pq.ParseURL(url)
-	if err != nil{
-		logging.Logger.Error("Failed to parse db URL")
-		return
-	}
-	connection += " sslmode=require"
-	fmt.Println(connection)
-	sqlDB,err := sql.Open("postgres", url)
-	Conn, err = gorm.Open(postgres.New(postgres.Config{
-		Conn: sqlDB,
-	  }), &gorm.Config{
-		CreateBatchSize: 100,
+	if(url != ""){
+		sqlDB,err := sql.Open("postgres", url)
+		Conn, err = gorm.Open(postgres.New(postgres.Config{
+			Conn: sqlDB,
+		  }), &gorm.Config{
+			CreateBatchSize: 100,
+				NamingStrategy: schema.NamingStrategy{
+					SingularTable: true,
+				},
+		  })
+		if err != nil{
+			logging.Logger.Error("Failed to open database")
+			return
+		}
+	}else{
+		err := godotenv.Load()
+		if err != nil {
+			logging.Logger.Error("Error loading .env file")
+			return
+		}
+		host := os.Getenv("DB_HOST")
+		user := os.Getenv("DB_USER")
+		pass := os.Getenv("DB_PASSWORD")
+		dbname := os.Getenv("DB_NAME")
+		port := os.Getenv("DB_PORT")
+		dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo", host, user,pass, dbname,port)
+			Conn,err = gorm.Open(postgres.Open(dns), &gorm.Config{
+			CreateBatchSize: 100,
 			NamingStrategy: schema.NamingStrategy{
 				SingularTable: true,
 			},
-	  })
-	  if err != nil{
-		logging.Logger.Error("Failed to open database")
-		return
+		})
+		if err != nil{
+			logging.Logger.Error("Failed to connect to SQL")
+			return
+		}	
 	}
-
-
-	// host := "127.0.0.1"
-	// user := "kakizakihinano"
-	// pass := "ishikari0719"
-	// dbname := "touken_api"
-	// port := "5432"
-	// var err error
-	// dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo", host, user,pass, dbname,port)
-	// 	Conn,err = gorm.Open(postgres.Open(dns), &gorm.Config{
-	// 	CreateBatchSize: 100,
-	// 	NamingStrategy: schema.NamingStrategy{
-	// 		SingularTable: true,
-	// 	},
-	// })
-
-	if err != nil{
-		logging.Logger.Error("Failed to connect to SQL")
-		return
-	}
-
 	logging.Logger.Info("Success to connect to SQL")
 	
 }
