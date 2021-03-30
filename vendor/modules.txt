@@ -45,13 +45,15 @@ github.com/jinzhu/inflection
 github.com/jinzhu/now
 # github.com/joho/godotenv v1.3.0
 ## explicit
-github.com/joho/godotenv
 # github.com/json-iterator/go v1.1.9
 github.com/json-iterator/go
 # github.com/leodido/go-urn v1.2.0
 github.com/leodido/go-urn
-# github.com/lib/pq v1.3.0
+# github.com/lib/pq v1.10.0
 ## explicit
+github.com/lib/pq
+github.com/lib/pq/oid
+github.com/lib/pq/scram
 # github.com/mattn/go-isatty v0.0.12
 github.com/mattn/go-isatty
 # github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
