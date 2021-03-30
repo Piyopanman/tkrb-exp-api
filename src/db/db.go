@@ -21,6 +21,7 @@ func Init(){
 	//postgreSQL
 	url := os.Getenv("DATABASE_URL")
 	if(url != ""){
+		logging.Logger.Info("product mode DB")
 		sqlDB,err := sql.Open("postgres", url)
 		Conn, err = gorm.Open(postgres.New(postgres.Config{
 			Conn: sqlDB,
@@ -35,6 +36,7 @@ func Init(){
 			return
 		}
 	}else{
+		logging.Logger.Info("development mode DB")
 		err := godotenv.Load()
 		if err != nil {
 			logging.Logger.Error("Error loading .env file")
