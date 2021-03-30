@@ -2,11 +2,9 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"os"
 	"tkrb-exp-api/src/logging"
 
-	"github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -20,13 +18,14 @@ func Init(){
 
 	//postgreSQL
 	url := os.Getenv("DATABASE_URL")
-	connection,err := pq.ParseURL(url)
-	if err != nil{
-		logging.Logger.Error("Failed to parse db URL")
-		return
-	}
-	connection += " sslmode=require"
-	fmt.Println(connection)
+	// connection,err := pq.ParseURL(url)
+	// if err != nil{
+	// 	logging.Logger.Error("Failed to parse db URL")
+	// 	return
+	// }
+	// connection += " sslmode=require"
+	// fmt.Println(connection)
+	logging.Logger.Info(url)
 	sqlDB,err := sql.Open("postgres", url)
 	Conn, err = gorm.Open(postgres.New(postgres.Config{
 		Conn: sqlDB,
