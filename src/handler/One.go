@@ -28,7 +28,7 @@ func GetToukenOne(c *gin.Context){
 	touken,err := model.GetTouken(req.Touken)
 	if err != nil{
 		logging.Logger.Error(fmt.Sprintf("Failed to get toukenName and toukenID by toukenID(%d)", req.Touken))
-		c.JSON(http.StatusInternalServerError, getToukenOneResponse{
+		c.JSON(http.StatusBadRequest, getToukenOneResponse{
 			ToukenName: "",
 			Level: -1,
 			Exp: -1,
@@ -43,7 +43,7 @@ func GetToukenOne(c *gin.Context){
 	exp,err = model.GetExp(touken.ToushuID,req.Level)
 	if err != nil{
 		logging.Logger.Error(fmt.Sprintf("Failed to get Exp by toukenID(%d) and level(%d)", req.Touken,req.Level))
-		c.JSON(http.StatusInternalServerError, getToukenOneResponse{
+		c.JSON(http.StatusBadRequest, getToukenOneResponse{
 			ToukenName: "",
 			Level: -1,
 			Exp: -1,

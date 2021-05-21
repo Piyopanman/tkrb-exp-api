@@ -42,7 +42,14 @@ func GetToukenTwo(c *gin.Context){
 		touken,err := model.GetTouken(t.ToukenID)
 		if err != nil{
 			logging.Logger.Error(fmt.Sprintf("Failed to get toukenName and toukenID by toukenID(%d)", t.ToukenID))
-			c.JSON(http.StatusInternalServerError, gin.H{"message":"Failed to get toukenName and toukenID by toukenID"})
+			c.JSON(http.StatusBadRequest, getToukenTwoResponse{
+				Touken: toukenDataSlice,
+				IsSameExp: false,
+				MoreGrown: -1,
+				LessGrown: -1,
+				DiffKonpeto: -1,
+				DiffAtsukashi: -1,
+			})
 			return
 		}
 
@@ -51,7 +58,14 @@ func GetToukenTwo(c *gin.Context){
 		exp,err = model.GetExp(touken.ToushuID,t.Level)
 		if err != nil{
 			logging.Logger.Error(fmt.Sprintf("Failed to get Exp by toushuID(%d) and level(%d)", touken.ToushuID,t.Level))
-			c.JSON(http.StatusInternalServerError, gin.H{"message":"Failed to get Exp by toushuID and level"})
+			c.JSON(http.StatusBadRequest, getToukenTwoResponse{
+				Touken: toukenDataSlice,
+				IsSameExp: false,
+				MoreGrown: -1,
+				LessGrown: -1,
+				DiffKonpeto: -1,
+				DiffAtsukashi: -1,
+			})
 			return
 		}
 		//金平糖何個分？
