@@ -1,3 +1,4 @@
 .env
 db/init/
 memo.txt
+.DS_Store
